@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conservation Geography - MCQ Master & Practice Portal</title>
+  <meta name="description" content="Interactive MCQ portal for Conservation Geography. Weekwise practice, combined serial, and randomized modes with instant answer validation and performance tracking.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+  <!-- Top Application Header -->
+  <header class="app-header" id="appHeader">
+    <div class="header-container">
+      <div class="brand-section">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">Conservation Geography</h1>
+          <span class="brand-badge">120 Questions • 12 Weeks</span>
+        </div>
+      </div>
+
+      <!-- Quick Stats in Header -->
+      <div class="header-stats" id="headerStats">
+        <div class="stat-pill score-pill" title="Score / Accuracy">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-label">Accuracy:</span>
+          <strong class="stat-value" id="statAccuracy">0%</strong>
+        </div>
+        <div class="stat-pill correct-pill" title="Correct answers">
+          <span class="stat-icon">✓</span>
+          <span class="stat-label">Correct:</span>
+          <strong class="stat-value text-success" id="statCorrect">0</strong>
+        </div>
+        <div class="stat-pill wrong-pill" title="Incorrect answers">
+          <span class="stat-icon">✗</span>
+          <span class="stat-label">Wrong:</span>
+          <strong class="stat-value text-danger" id="statWrong">0</strong>
+        </div>
+        <div class="stat-pill streak-pill" title="Current winning streak">
+          <span class="stat-icon">🔥</span>
+          <span class="stat-label">Streak:</span>
+          <strong class="stat-value text-streak" id="statStreak">0</strong>
+        </div>
+      </div>
+
+      <!-- Actions & Controls -->
+      <div class="header-actions">
+        <button id="themeToggleBtn" class="action-btn icon-btn" title="Toggle Light/Dark Theme" aria-label="Toggle theme">
+          <span class="theme-icon-dark">🌙</span>
+          <span class="theme-icon-light">☀️</span>
+        </button>
+        <button id="soundToggleBtn" class="action-btn icon-btn" title="Toggle Audio Feedback" aria-label="Toggle sound">
+          <span class="sound-icon-on">🔔</span>
+          <span class="sound-icon-off" style="display:none;">🔕</span>
+        </button>
+        <button id="scorecardBtn" class="action-btn pill-btn primary-btn" title="View Detailed Report">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          <span>Scorecard</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation & Mode Selector -->
+  <nav class="mode-navigation" id="modeNavigation">
+    <div class="nav-container">
+      <div class="nav-tabs" role="tablist">
+        <button class="mode-tab active" id="tabWeekwise" data-mode="weekwise" role="tab" aria-selected="true">
+          <span class="tab-icon">📅</span>
+          <span class="tab-text">Week-wise MCQs</span>
+          <span class="tab-counter" id="weekwiseBadge">Week 1</span>
+        </button>
+        <button class="mode-tab" id="tabAllSerial" data-mode="serial" role="tab" aria-selected="false">
+          <span class="tab-icon">🔢</span>
+          <span class="tab-text">All Weeks (Serial Order)</span>
+          <span class="tab-counter">120 Qs</span>
+        </button>
+        <button class="mode-tab" id="tabAllJumbled" data-mode="jumbled" role="tab" aria-selected="false">
+          <span class="tab-icon">🔀</span>
+          <span class="tab-text">All Weeks (Random / Jumbled)</span>
+          <span class="tab-counter">Shuffle</span>
+        </button>
+      </div>
+
+      <!-- Secondary Toolbar (View Mode, Reshuffle, Reset) -->
+      <div class="nav-tools">
+        <button id="reshuffleBtn" class="tool-btn" title="Reshuffle question order" style="display: none;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+          <span>Reshuffle</span>
+        </button>
+        <div class="view-toggle-group">
+          <button id="viewCardBtn" class="view-btn active" title="Flashcard Single Question View">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+            <span>Card</span>
+          </button>
+          <button id="viewListBtn" class="view-btn" title="All Questions In One List View">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            <span>List</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Week Selection Drawer / Bar (Visible in Weekwise Mode) -->
+  <section class="week-selector-bar" id="weekSelectorBar">
+    <div class="week-selector-container">
+      <div class="week-chips-label">
+        <span>Select Week:</span>
+      </div>
+      <div class="week-chips-scroll" id="weekChipsContainer">
+        <!-- Week buttons 1 to 12 dynamically generated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Application Body -->
+  <main class="app-main-layout" id="mainLayout">
+    <!-- Center Content Area -->
+    <div class="content-container">
+      
+      <!-- Progress Bar & Active Question Header -->
+      <section class="progress-section" id="progressSection">
+        <div class="progress-meta">
+          <div class="progress-info">
+            <span class="active-mode-tag" id="activeModeTag">Week 1 MCQs</span>
+            <span class="question-tracker" id="questionTracker">Question 1 of 10</span>
+          </div>
+          <div class="progress-details">
+            <span class="progress-pct" id="progressPercent">0% Completed</span>
+          </div>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+        </div>
+      </section>
+
+      <!-- View Container: Card View (Default) -->
+      <section class="question-view-card" id="cardViewSection">
+        <div class="mcq-card" id="activeCard">
+          
+          <!-- Card Top Bar: Week Badge, Question ID, Tags -->
+          <div class="card-header">
+            <div class="card-tags">
+              <span class="badge week-badge" id="cardWeekBadge">Week 1</span>
+              <span class="badge qnum-badge" id="cardQNumBadge">Q. 1</span>
+              <span class="badge status-badge" id="cardStatusBadge">Unanswered</span>
+            </div>
+            <div class="card-actions">
+              <button class="card-action-icon" id="cardResetBtn" title="Reset this question">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question Prompt Text -->
+          <div class="question-prompt" id="cardQuestionText">
+            Loading question...
+          </div>
+
+          <!-- Options List (a, b, c, d) -->
+          <div class="options-container" id="cardOptionsContainer">
+            <!-- Options injected dynamically -->
+          </div>
+
+          <!-- Instant Feedback Banner -->
+          <div class="feedback-banner" id="cardFeedbackBanner" style="display: none;">
+            <div class="feedback-icon" id="feedbackIcon"></div>
+            <div class="feedback-content">
+              <div class="feedback-title" id="feedbackTitle"></div>
+              <div class="feedback-desc" id="feedbackDesc"></div>
+            </div>
+          </div>
+
+          <!-- Card Bottom Navigation Controls -->
+          <div class="card-footer">
+            <div class="footer-left">
+              <button id="btnPrevQ" class="nav-control-btn secondary" title="Previous Question (Left Arrow)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                <span>Previous</span>
+              </button>
+            </div>
+            <div class="footer-center">
+              <div class="shortcut-hints">
+                <span>Keys: <kbd>1</kbd>-<kbd>4</kbd> or <kbd>A</kbd>-<kbd>D</kbd> to select • <kbd>←</kbd> <kbd>→</kbd> to navigate</span>
+              </div>
+            </div>
+            <div class="footer-right">
+              <button id="btnNextQ" class="nav-control-btn primary" title="Next Question (Right Arrow)">
+                <span>Next</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- View Container: List View (Scrollable All Questions) -->
+      <section class="question-view-list" id="listViewSection" style="display: none;">
+        <div class="list-controls-bar">
+          <div class="list-search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" id="listSearchInput" placeholder="Search questions in current set...">
+            <button id="clearSearchBtn" class="clear-search" style="display: none;">✕</button>
+          </div>
+          <div class="list-filter-chips">
+            <button class="filter-chip active" data-filter="all">All (<span id="countAll">0</span>)</button>
+            <button class="filter-chip" data-filter="unanswered">Unanswered (<span id="countUnanswered">0</span>)</button>
+            <button class="filter-chip" data-filter="correct">Correct (<span id="countCorrect">0</span>)</button>
+            <button class="filter-chip" data-filter="wrong">Incorrect (<span id="countWrong">0</span>)</button>
+          </div>
+        </div>
+
+        <div class="questions-list-stream" id="questionsListStream">
+          <!-- List items injected dynamically -->
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Right Sidebar: Question Matrix & Navigator -->
+    <aside class="sidebar-navigator" id="sidebarNavigator">
+      <div class="sidebar-card">
+        <div class="sidebar-header">
+          <div class="sidebar-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Question Navigator</span>
+          </div>
+          <span class="navigator-count" id="navigatorCountBadge">10 Qs</span>
+        </div>
+
+        <!-- Legend -->
+        <div class="navigator-legend">
+          <span class="legend-item"><span class="legend-dot dot-correct"></span> Correct</span>
+          <span class="legend-item"><span class="legend-dot dot-wrong"></span> Incorrect</span>
+          <span class="legend-item"><span class="legend-dot dot-current"></span> Current</span>
+          <span class="legend-item"><span class="legend-dot dot-unattempted"></span> Unanswered</span>
+        </div>
+
+        <!-- Question Grid -->
+        <div class="question-matrix-grid" id="questionMatrixGrid">
+          <!-- Number buttons 1..N dynamically injected -->
+        </div>
+
+        <!-- Quick Summary Box -->
+        <div class="sidebar-footer-stats">
+          <div class="sidebar-stat-row">
+            <span>Current Mode</span>
+            <strong id="sideModeText">Week 1</strong>
+          </div>
+          <div class="sidebar-stat-row">
+            <span>Score</span>
+            <strong id="sideScoreText">0 / 10</strong>
+          </div>
+          <div class="sidebar-stat-row">
+            <span>Completion</span>
+            <strong id="sideProgressText">0%</strong>
+          </div>
+          <div class="sidebar-actions-group">
+            <button id="sideResetCurrentBtn" class="side-btn secondary-btn" title="Reset answers for current view">
+              <span>Reset Current</span>
+            </button>
+            <button id="sideResetAllBtn" class="side-btn text-btn" title="Reset all answers across all weeks">
+              <span>Reset All Progress</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Modal: Scorecard & Detailed Performance -->
+  <div class="modal-backdrop" id="scorecardModal" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2 class="modal-title">Performance Scorecard</h2>
+          <p class="modal-subtitle" id="scorecardSubtitle">Conservation Geography Practice Report</p>
+        </div>
+        <button class="modal-close-btn" id="closeScorecardBtn" aria-label="Close modal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Big Score Hero -->
+        <div class="score-hero">
+          <div class="score-circle-wrapper">
+            <div class="score-circle" id="scoreCircle">
+              <span class="score-big-num" id="modalAccuracy">0%</span>
+              <span class="score-big-label">Accuracy</span>
+            </div>
+          </div>
+          <div class="score-hero-breakdown">
+            <div class="hero-metric">
+              <span class="metric-label">Total Attempted</span>
+              <strong class="metric-val" id="modalTotalAttempted">0 / 120</strong>
+            </div>
+            <div class="hero-metric">
+              <span class="metric-label">Correct Answers</span>
+              <strong class="metric-val text-success" id="modalTotalCorrect">0</strong>
+            </div>
+            <div class="hero-metric">
+              <span class="metric-label">Incorrect Answers</span>
+              <strong class="metric-val text-danger" id="modalTotalWrong">0</strong>
+            </div>
+            <div class="hero-metric">
+              <span class="metric-label">Highest Streak</span>
+              <strong class="metric-val text-streak" id="modalMaxStreak">0 🔥</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week-by-Week Table Breakdown -->
+        <div class="week-breakdown-section">
+          <h3 class="section-heading">Week-by-Week Breakdown</h3>
+          <div class="week-table-container">
+            <table class="week-perf-table">
+              <thead>
+                <tr>
+                  <th>Week</th>
+                  <th>Topic / Focus</th>
+                  <th>Attempted</th>
+                  <th>Correct</th>
+                  <th>Accuracy</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="weekPerfTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="retryIncorrectBtn" class="modal-btn warning-btn" title="Practice only the questions you got wrong">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+          <span>Practice Missed Questions (<span id="modalMissedCount">0</span>)</span>
+        </button>
+        <button id="modalDoneBtn" class="modal-btn primary-btn">
+          <span>Continue Practice</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Feedback Elements (synthesized via Web Audio API, or fallback) -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Load Data and Main Script -->
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
