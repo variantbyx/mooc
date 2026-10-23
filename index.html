@@ -135,6 +135,10 @@
           </div>
           <div class="progress-details">
             <span class="progress-pct" id="progressPercent">0% Completed</span>
+            <button id="mobileNavSheetBtn" class="mobile-nav-sheet-btn" title="Open Question Navigator">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              <span id="mobileNavSheetLabel">Grid</span>
+            </button>
           </div>
         </div>
         <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
@@ -235,7 +239,10 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
             <span>Question Navigator</span>
           </div>
-          <span class="navigator-count" id="navigatorCountBadge">10 Qs</span>
+          <div class="sidebar-header-right">
+            <span class="navigator-count" id="navigatorCountBadge">10 Qs</span>
+            <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Navigator">✕</button>
+          </div>
         </div>
 
         <!-- Legend -->

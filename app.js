@@ -712,6 +712,9 @@
 
       btn.addEventListener('click', () => {
         state.currentIndex = idx;
+        if (window.innerWidth <= 1024) {
+          closeMobileNavSheet();
+        }
         if (state.currentView === 'card') {
           renderCardQuestion();
           updateProgressUI();
@@ -739,6 +742,17 @@
     document.getElementById('sideProgressText').textContent = `${pct}%`;
   }
 
+  // Mobile Navigator Drawer helpers
+  function openMobileNavSheet() {
+    const sidebar = document.getElementById('sidebarNavigator');
+    if (sidebar) sidebar.classList.add('mobile-open');
+  }
+
+  function closeMobileNavSheet() {
+    const sidebar = document.getElementById('sidebarNavigator');
+    if (sidebar) sidebar.classList.remove('mobile-open');
+  }
+
   // =========================================================================
   // PROGRESS BAR & HEADER STATS
   // =========================================================================
@@ -755,6 +769,11 @@
 
     const progressPctEl = document.getElementById('progressPercent');
     if (progressPctEl) progressPctEl.textContent = `${progressPct}% Completed (${answeredCount}/${list.length})`;
+
+    const mobileNavSheetLabel = document.getElementById('mobileNavSheetLabel');
+    if (mobileNavSheetLabel) {
+      mobileNavSheetLabel.textContent = `Q ${state.currentIndex + 1}/${list.length}`;
+    }
   }
 
   function updateGlobalStats() {
@@ -1026,6 +1045,24 @@
         closeScorecardModal();
       }
     });
+
+    // Mobile Nav Sheet controls
+    const mobileNavSheetBtn = document.getElementById('mobileNavSheetBtn');
+    if (mobileNavSheetBtn) {
+      mobileNavSheetBtn.addEventListener('click', openMobileNavSheet);
+    }
+    const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+    if (sidebarCloseBtn) {
+      sidebarCloseBtn.addEventListener('click', closeMobileNavSheet);
+    }
+    const sidebarNav = document.getElementById('sidebarNavigator');
+    if (sidebarNav) {
+      sidebarNav.addEventListener('click', (e) => {
+        if (e.target === sidebarNav) {
+          closeMobileNavSheet();
+        }
+      });
+    }
 
     // Keyboard Shortcuts
     window.addEventListener('keydown', (e) => {
